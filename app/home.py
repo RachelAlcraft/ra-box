@@ -10,7 +10,7 @@ st.header("RA-BOX")
 st.write(""" 
             Welcome to my personal website. 
          
-         This application is dostributed by continuous development from the main branch of the github repo
+         This application is distributed by continuous development from the main branch of the github repo
          https://github.com/RachelAlcraft/ra-box
             
 
