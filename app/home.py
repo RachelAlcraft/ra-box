@@ -12,7 +12,7 @@ st.write("""
          
          ### Under construction
          
-         This application is distributed by continuous development from the main branch of the github repo
+         This application is distributed by continuous depoloyment from the main branch of the github repo
          https://github.com/RachelAlcraft/ra-box
             
 
