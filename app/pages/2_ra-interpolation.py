@@ -1,4 +1,4 @@
 import streamlit as st
 
-st.header("A deonstration of multidimensional interpolation")
-st.write("## Using the library ra-interpolation")
+st.header("Multidimensional interpolation")
+st.write("### Using my library ra-interpolation")
