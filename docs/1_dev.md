@@ -7,3 +7,6 @@ pip install -r requirements.txt --upgrade
 
 # run app
 streamlit run app/home.py
+
+# distribute to streamlit
+https://share.streamlit.io/

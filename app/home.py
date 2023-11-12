@@ -1,5 +1,10 @@
 import streamlit as st
-from streamlit_extras.switch_page_button import switch_page
+
+st.set_page_config(
+        page_title="ra-box",
+        page_icon="app/static/ed-icon.png",
+        layout="wide",
+    )
 
 st.header("RA-BOX")
 st.write(""" 
