@@ -2,7 +2,7 @@ import streamlit as st
 
 st.set_page_config(
         page_title="ra-box",
-        page_icon="app/static/ed-icon.png"i
+        page_icon="app/static/ed-icon.png",
         layout="wide",
     )
 
