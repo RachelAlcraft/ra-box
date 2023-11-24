@@ -71,9 +71,9 @@ with tabDemo:
                                 "C-1:N:CA:C","N:CA:C:N+1","bf_N:CA")
 
     data_samples["MAST4-AF"] = ("AF-O15021-F1-model_v4",
-                                "N:CA CA:C C:O",
-                                "N:CA","info_N:CA","aa",
-                                "CA:C","info_CA:C","bf_CA:C")
+                                "CA:{CB&1} CA:{CA&1}",
+                                "CA:{CA&1}","info_CA:{CA&1}","bf_CA:{CA&1}",
+                                "CA:{CB&1}","info_CA:{CB&1}","bf_CA:{CB&1}")
 
                                 
     data_samples["4rek"] = ("4rek",
