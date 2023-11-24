@@ -50,11 +50,21 @@ with tabDemo:
                                 "SG:{SG@1}","SG:O","pdb_code")
 
     data_samples["crambin nearests"] = ("1crn 1ejg 3u7t 2fd7 1cbn 1cnr 3nir 1ab1 2fd9 1jxy 1jxu 1jxx 1jxw 1jxt",
-                                "N:(N,O) N:(N@1) N:(O@1) N:(N,O@1) N:(N,O@2) N:(N,O&1) N:(N,O&1) N:(N,O&2)",
+                                "N:(N,O) N:(N@1) N:(O@1) N:(N,O@1) N:(N,O@2) N:(N,O&1) N:(N,O&2)",
                                 "N:(N,O@1)","info_N:(N,O@1)","pdb_code",
                                 "N:(N,O@1)","N:(N,O@2)","N:(O@1)")
                                 
     
+    data_samples["CA contacts"] = ("5nqo",
+                                "CA:{CA@i}[dis|0.5<>10]",
+                                "rid","rid2_CA:{CA@i}[dis|0.5<>10]","CA:{CA@i}[dis|0.5<>10]",
+                                "rid","rid2_CA:{CA@i}[dis|0.5<>10]","bf_CA:{CA@i}[dis|0.5<>10]")
+
+    data_samples["NO contacts"] = ("5nqo",
+                                "N:(O@i)[~aa|HOH,dis|0.5<>10]",
+                                "rid","rid2_N:(O@i)[~aa|HOH,dis|0.5<>10]","N:(O@i)[~aa|HOH,dis|0.5<>10]",
+                                "rid","rid2_N:(O@i)[~aa|HOH,dis|0.5<>10]","bf_N:(O@i)[~aa|HOH,dis|0.5<>10]")
+
     data_samples["brca1"] = ("AF-Q8CGX5-F1-model_v4",
                                 "N:CA:C:N+1 C-1:N:CA:C N:CA CA:C C:O",
                                 "rid","bf_N:CA","aa",
@@ -71,14 +81,14 @@ with tabDemo:
                                 "C-1:N:CA:C","N:CA:C:N+1","N:CA:C")
 
     data_samples["iron"] = ("2d5x 2peg 3vrg 1j41 1j40 3gkv 2r80 2d5z 1thb 2dn2 2dn1 2dn3 2w72 6rp5 2h8f 3d1k 3bom 4esa 5eui 6zmx 6ihx 6ii1 7dy3 7dy4 1uiw 6kah 6kai 6ka9 6kae 6lcx 6lcw 6l5w 6kao 6kaq 6kap 6l5v 1bab 1bz0 1ird 3s66 7jy3",
-                                "FE:{(N),(O)} FE:{(N),(O)@1} FE:{(N),(O)@2} FE:{(N),(O)@3}",
-                                "FE:{(N),(O)}","FE:{(N),(O)@1}","aa",
-                                "FE:{(N),(O)@2}","FE:{(N),(O)@3}","pdb_code")
+                                "FE:(N,O) FE:(N,O@1) FE:(N,O@2) FE:(N,O@3)",
+                                "FE:(N,O)","FE:(N,O@1)","aa",
+                                "FE:(N,O@2)","FE:(N,O@3)","pdb_code")
 
     data_samples["hydrogen bonds"] = ("1AB1 1AHO 1CBN 1DY5 1EJG 1ETL 1ETM 1ETN 1F94 1FN8 1FY4 1FY5 1G4I 1G66 1G6X 4NDS 4NSV 4R5R 4UNU 4UYR 4WKA 4XDX 4XOJ 4Y9W 4YEO 4ZM7 5A71 5AVD 5AVG 5DJ7 5DK1 5DKM 5E7W 5E9N 5HMV 5HQI 5I5B",
-                                "N:{(O),(N)&1}[dis|2.5<>3.0] C:O N:CA:C N:CA",                            
-                                "N:{(O),(N)&1}[dis|2.5<>3.0]","info_N:{(O),(N)&1}[dis|2.5<>3.0]","pdb_code",
-                                "N:{(O),(N)&1}[dis|2.5<>3.0]","info_N:{(O),(N)&1}[dis|2.5<>3.0]","aa")
+                                "N:(O,N&1)[dis|2.5<>3.0] C:O N:CA:C N:CA",                            
+                                "N:(O,N&1)[dis|2.5<>3.0]","info_N:(O,N&1)[dis|2.5<>3.0]","pdb_code",
+                                "N:(O,N&1)[dis|2.5<>3.0]","info_N:(O,N&1)[dis|2.5<>3.0]","aa")
 
 
 
@@ -293,7 +303,9 @@ with tabHelp:
         The second nearest O or N: N:(N,O@1)
         The nearest O or N not the same residue: N:{N,O&1}
         Only glycine: N[aa|GLY]:CA
+        Never water: N:(O)[~aa|HOH]
         Only glycine TO glycine:  N[aa|GLY]:CA[aa|GLY]
+        Contacts CA-CA between 0.5 and 6: CA:{CA@i}[dis|0.5<>6]
         ---------------------------------------------------------------------  
         Description
         ---------------------------------------------------------------------  
@@ -319,6 +331,7 @@ with tabHelp:
         operators @ or & specify x nearest or at least x away as follows
         N:{O,N@1} means N and the second nearest  O or N to it - 0 indexed
         N:{O,N&2} means N and the nearest O or N as long as it is at least 2 residues away
+        CA:{CA@i} i means all CAs so it is CA with all possible CAs.
         ---------------------------------------------------------------------  
         [] after a geo specify a comma delim list of criteria
         aa - amino acid of the residue
