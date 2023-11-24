@@ -65,11 +65,17 @@ with tabDemo:
                                 "rid","rid2_N:(O@i)[~aa|HOH,dis|0.5<>10]","N:(O@i)[~aa|HOH,dis|0.5<>10]",
                                 "rid","rid2_N:(O@i)[~aa|HOH,dis|0.5<>10]","bf_N:(O@i)[~aa|HOH,dis|0.5<>10]")
 
-    data_samples["brca1"] = ("AF-Q8CGX5-F1-model_v4",
+    data_samples["BRCA1-AF"] = ("AF-Q8CGX5-F1-model_v4",
                                 "N:CA:C:N+1 C-1:N:CA:C N:CA CA:C C:O",
                                 "rid","bf_N:CA","aa",
                                 "C-1:N:CA:C","N:CA:C:N+1","bf_N:CA")
 
+    data_samples["MAST4-AF"] = ("AF-O15021-F1-model_v4",
+                                "N:CA CA:C C:O",
+                                "N:CA","info_N:CA","aa",
+                                "CA:C","info_CA:C","bf_CA:C")
+
+                                
     data_samples["4rek"] = ("4rek",
                                 "N:CA:C:N+1 C-1:N:CA:C N:CA CA:C C:O N:N+1 N:CA:C",
                                 "N:CA:C:N+1","N:N+1","N:CA:C",
@@ -239,46 +245,48 @@ with tabDemo:
         st.write("---")
         st.write("##### 6) Plot spatial data")
         aax_cols = list(df_atoms.columns)
-        aiidx1,aiidy1,aiidz1,aiidx2,aiidy2,aiidz2 = 0,0,0,0,0,0
-        try:
-            aiidx1 = aax_cols.index("x")
-            aiidy1 = aax_cols.index("y")
-            aiidz1 = aax_cols.index("bfactor")
-            aiidx2 = aax_cols.index("x")
-            aiidy2 = aax_cols.index("z")
-            aiidz2 = aax_cols.index("element")
+        aiidh1,aiidh2 = 0,0
+        try:            
+            aiidh1 = aax_cols.index("bfactor")            
+            aiidh2 = aax_cols.index("element")
         except:
             pass
 
         pdbs = list(df_atoms["pdbCode"].unique())
-        cols = st.columns(7)
+                
+        ax_ax1 = "x"        
+        ay_ax1 = "y"
+        az_ax1 = "z"
+        ax_ax2 = "x"        
+        ay_ax2 = "y"
+        az_ax2 = "z"
+                
+        cols = st.columns(3)
         with cols[0]:
-            pdb = st.selectbox("pdbcode", pdbs,index=0)
+            pdb = st.selectbox("pdbcode", pdbs,index=0)        
         with cols[1]:
-            ax_ax1 = st.selectbox("x-axis 1", aax_cols,index=aiidx1)
+            ah_ax1 = st.selectbox("hue 1",aax_cols,index=aiidh1)        
         with cols[2]:
-            ay_ax1 = st.selectbox("y-axis 1",aax_cols,index=aiidy1)
-        with cols[3]:
-            az_ax1 = st.selectbox("z-axis (hue) 1",aax_cols,index=aiidz1)
-        with cols[4]:
-            ax_ax2 = st.selectbox("x-axis 2", aax_cols,index=aiidx2)
-        with cols[5]:
-            ay_ax2 = st.selectbox("y-axis 2",aax_cols,index=aiidy2)
-        with cols[6]:
-            az_ax2 = st.selectbox("z-axis (hue) 2",aax_cols,index=aiidz2)
+            ah_ax2 = st.selectbox("hue 2",aax_cols,index=aiidh2)
         if st.button("Calculate atom plot"):
             st.write("Spatial info")
             cols = st.columns(2)
             with cols[0]:                
-                fig = px.scatter(df_atoms[df_atoms['pdbCode'] == pdb], x=ax_ax1, y=ay_ax1, color=az_ax1,title="",width=500, height=500, opacity=0.7,color_continuous_scale=px.colors.sequential.Viridis)
+                fig = px.scatter_3d(df_atoms[df_atoms['pdbCode'] == pdb], x=ax_ax1, y=ay_ax1, z=az_ax1, color=ah_ax1,title="",
+                    width=500, height=500, opacity=0.5,color_continuous_scale=px.colors.sequential.Viridis)
+                fig.update_traces(marker=dict(size=5,line=dict(width=0,color='silver')),selector=dict(mode='markers'))
                 st.plotly_chart(fig, use_container_width=False)
             with cols[1]:                
-                fig = px.scatter(df_atoms[df_atoms['pdbCode'] == pdb], x=ax_ax2, y=ay_ax2, color=az_ax2,title="",width=500, height=500, opacity=0.7,color_continuous_scale=px.colors.sequential.Viridis)
+                fig = px.scatter_3d(df_atoms[df_atoms['pdbCode'] == pdb], x=ax_ax2, y=ay_ax2, z=az_ax2, color=ah_ax2,title="",
+                    width=500, height=500, opacity=0.5,color_continuous_scale=px.colors.sequential.Viridis)
+                fig.update_traces(marker=dict(size=5,line=dict(width=0,color='silver')),selector=dict(mode='markers'))
                 st.plotly_chart(fig, use_container_width=False)
 
             code_string3 = "import plotly.express as px\n"
-            code_string3 += f"fig = px.scatter(df_atoms, x='{x_ax1}', y='{y_ax1}', color='{z_ax1}',title="",width=500, height=500, opacity=0.7, color_continuous_scale=px.colors.sequential.Viridis))\n"
-            code_string3 += "fig.show() #or preferred method, e.g. fig.write_html('path/to/file.html')"
+            code_string3 += f"fig = px.scatter_3d(df_atoms, x='x', y='y', z='z',color='{ah_ax1}',title='',\n"
+            code_string3 += "    width=500, height=500, opacity=0.5, color_continuous_scale=px.colors.sequential.Viridis))\n"
+            code_string3 += "fig.update_traces(marker=dict(size=5,line=dict(width=0,color='silver')),selector=dict(mode='markers'))\n"
+            code_string3 += "fig.show() #or preferred method, e.g. fig.write_html('path/to/file.html')\n"
             st.session_state['code_df3'] = code_string3
 
         
